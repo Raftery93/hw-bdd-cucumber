@@ -51,7 +51,14 @@ Then /^I should not see the following ratings: (.*)/ do |rating_list|
 end
 ####################################
 
-Then /I should see all the movies/ do
-  # Make sure that all the movies in the app are visible in the table
-  fail "Unimplemented"
+When(/^I check all movies$/) do
+  @movies.pluck(:rating).uniq.each do |rating| 
+    step %Q{I check "ratings_#{rating}"}
+  end
+end
+ 
+Then /^I should see all the movies/ do
+  @movies.each do |movie|
+    step %Q{I should see "#{movie.title}"}
+  end
 end
